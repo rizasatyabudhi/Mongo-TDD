@@ -4,6 +4,7 @@ const User = require("../src/user");
 describe("Reading User out of the database", () => {
   let joe;
 
+  // we have to create a new instance (joe) first before we test it
   beforeEach(done => {
     joe = new User({ name: "Joe" });
     joe.save().then(() => done());
