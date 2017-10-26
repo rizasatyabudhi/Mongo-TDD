@@ -10,6 +10,7 @@ describe("Reading User out of the database", () => {
     joe.save().then(() => done());
   });
 
+  /////////////////////// MODEL ////////////////////////////
   // we will always use "done" param because mongoose is async
   it("finds all users with a name of Joe", done => {
     // find ALL users with name of Joe
