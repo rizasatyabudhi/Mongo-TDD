@@ -1,9 +1,16 @@
 const mongoose = require("mongoose");
 
-mongoose.connect("mongodb://localhost/users_test");
-mongoose.connection
-  .once("open", () => console.log("Good to Go!"))
-  .on("error", error => console.warn("warning", error));
+mongoose.Promise = global.Promise;
+
+// we tell mocha to run test AFTER mongoose has been successfully connected
+before(done => {
+  mongoose.connect("mongodb://localhost/users_test");
+  mongoose.connection
+    .once("open", () => {
+      done();
+    })
+    .on("error", error => console.warn("warning", error));
+});
 
 // we clear our list of user BEFORE we run test
 beforeEach(done => {
