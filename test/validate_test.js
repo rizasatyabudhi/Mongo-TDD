@@ -9,10 +9,22 @@ describe("Validating records", () => {
     assert(message === "Name is Required.");
   });
 
+  // Synchronous Validation
   it("requires a user's name longer than 2 characters", () => {
     const user = new User({ name: "Al" });
     const validationResult = user.validateSync();
     const { message } = validationResult.errors.name;
     assert(message === "Name must be longer than 2 characters");
+  });
+
+  // Asynchronous Validation, thus we need done()
+  // this is for handling failed insert
+  it("disallows invalid records from being saved", done => {
+    const user = new User({ name: "Al" });
+    user.save().catch(validationResult => {
+      const { message } = validationResult.errors.name;
+      assert(message === "Name must be longer than 2 characters");
+      done();
+    });
   });
 });
