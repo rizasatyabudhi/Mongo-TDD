@@ -48,4 +48,13 @@ describe("Updating records", () => {
   it("MODEL class can find record with an ID and update", done => {
     assertName(User.findByIdAndUpdate(joe._id, { name: "Alex" }), done);
   });
+
+  it("A user can have their postCount incremented by 1 ", done => {
+    User.update({ name: "Joe" }, { $inc: { postCount: 1 } })
+      .then(() => User.findOne({ name: "Joe" }))
+      .then(user => {
+        assert(user.postCount === 1);
+        done();
+      });
+  });
 });
