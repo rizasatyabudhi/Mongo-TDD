@@ -18,10 +18,14 @@ const UserSchema = new Schema({
       message: "Name must be longer than 2 characters"
     }
   },
-  postCount: Number,
-
   // Create Sub-Document of PostSchema (nested inside User Schema)
   posts: [PostSchema]
+});
+
+// ///////////// VIRTUAL PROPERTY CREATION ////////////
+UserSchema.virtual("postCount").get(function() {
+  // "this" refers to model INSTANCE that we are working on
+  return this.posts.length;
 });
 
 ///////////////// MODEL CREATION /////////////////////
