@@ -20,7 +20,7 @@ const UserSchema = new Schema({
   // Create Sub-Document of PostSchema (nested inside User Schema)
   posts: [PostSchema],
   likes: Number,
-  blogPost: [
+  blogPosts: [
     {
       type: Schema.Types.ObjectId,
       ref: "blogPost"
