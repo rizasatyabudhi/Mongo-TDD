@@ -7,7 +7,6 @@ const PostSchema = require("./post_schema");
 const UserSchema = new Schema({
   name: {
     type: String,
-
     // required is for validation, if validation is not met, the string msg (2nd param) will show up
     required: [true, "Name is Required."],
 
@@ -19,7 +18,14 @@ const UserSchema = new Schema({
     }
   },
   // Create Sub-Document of PostSchema (nested inside User Schema)
-  posts: [PostSchema]
+  posts: [PostSchema],
+  likes: Number,
+  blogPost: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "blogPost"
+    }
+  ]
 });
 
 // ///////////// VIRTUAL PROPERTY CREATION ////////////

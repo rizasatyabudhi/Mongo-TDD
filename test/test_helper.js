@@ -13,9 +13,14 @@ before(done => {
 });
 
 // we clear our list of user BEFORE we run test
+// all collections will be lowered case by mongoose
 beforeEach(done => {
-  mongoose.connection.collections.users.drop(() => {
-    // Ready to run next test
-    done();
+  const { users, blogposts, comments } = mongoose.connection.collections;
+  users.drop(() => {
+    comments.drop(() => {
+      blogposts.drop(() => {
+        done();
+      });
+    });
   });
 });
