@@ -31,6 +31,7 @@ const UserSchema = new Schema({
 // ///////////// VIRTUAL PROPERTY CREATION ////////////
 UserSchema.virtual("postCount").get(function() {
   // "this" refers to model INSTANCE that we are working on
+  // we have to use function(), don't use ()=>{}
   return this.posts.length;
 });
 
