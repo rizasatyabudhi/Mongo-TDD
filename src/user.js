@@ -35,6 +35,21 @@ UserSchema.virtual("postCount").get(function() {
   return this.posts.length;
 });
 
+//// MIDDLEWARE /////
+// When we delete User, we want to delete all associated blogPost and comment also, so we use middleware
+// remove | save | validate
+// pre = before the action
+// post = after the action
+UserSchema.pre("remove", function(next) {
+  const BlogPost = mongoose.model("blogPost");
+
+  // go through all the records in BlogPost collection,
+  // look at the _id, if the id is $in this.blogPosts,
+  // then remove those records
+  // next() to ommit the next middleware
+  BlogPost.remove({ _id: { $in: this.blogPosts } }).then(() => next());
+});
+
 ///////////////// MODEL CREATION /////////////////////
 // 1st param = name of our model
 // 2nd param = the model will follow what schema's structure

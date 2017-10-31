@@ -7,7 +7,13 @@ describe("Reading User out of the database", () => {
   // we have to create a new instance (joe) first before we test it
   beforeEach(done => {
     joe = new User({ name: "Joe" });
-    joe.save().then(() => done());
+    alex = new User({ name: "Alex" });
+    maria = new User({ name: "Maria" });
+    zach = new User({ name: "Zach" });
+
+    Promise.all([joe.save(), alex.save(), maria.save(), zach.save()]).then(() =>
+      done()
+    );
   });
 
   /////////////////////// MODEL ////////////////////////////
@@ -26,5 +32,19 @@ describe("Reading User out of the database", () => {
       assert(user.name === "Joe");
       done();
     });
+  });
+
+  it("can skip and limit the result test", done => {
+    User.find({})
+      // sort the name in ascending (1), descending (-1)
+      .sort({ name: 1 })
+      .skip(1)
+      .limit(2)
+      .then(users => {
+        assert(users.length === 2);
+        assert((users[0].name = "Alex"));
+        assert((users[1].name = "Maria"));
+        done();
+      });
   });
 });
